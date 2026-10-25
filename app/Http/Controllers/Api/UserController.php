@@ -9,37 +9,52 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // GET /api/users
     public function index()
     {
-        return User::select('id', 'role_id', 'username', 'created_at')
-            ->orderBy('id')
-            ->paginate(15);
+        return response()->json(User::all(), 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // GET /api/users/{id}
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+        return response()->json($user, 200);
+    }
+
+    // POST /api/users
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'username' => 'required|string|max:255|unique:users,username',
-            'password' => 'required|string|min:8',
-            'role_id'  => 'nullable|integer',
+            'username' => 'required|string|unique:users',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:6'
         ]);
 
         $user = User::create([
-            'username'      => $validated['username'],
+            'role_id' => 1,
+            'username' => $validated['username'],
+            'email' => $validated['email'],
             'password_hash' => Hash::make($validated['password']),
-            'role_id'       => $request->input('role_id', 1), // Por defecto asigna rol 1 si no se especifica
+            'is_active' => true
         ]);
 
         return response()->json($user, 201);
     }
 
-    public function show(string $id) {}
-    public function update(Request $request, string $id) {}
-    public function destroy(string $id) {}
+    // PUT /api/users/{id}
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->update($request->only(['username', 'email']));
+        return response()->json($user, 200);
+    }
+
+    // PATCH /api/users/{id}/deactivate
+    public function deactivate($id)
+    {
+        $user = User::findOrFail($id);
+        $user->update(['is_active' => false]);
+        return response()->json(['message' => 'User deactivated successfully', 'user' => $user], 200);
+    }
 }

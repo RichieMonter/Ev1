@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('role_id')->constrained('roles');
+            $table->foreignId('role_id')->nullable()->constrained('roles'); // nullable si no usas roles aún
             $table->string('username')->unique();
+            $table->string('email')->unique();
             $table->string('password_hash');
+            $table->boolean('is_active')->default(true); // Requerido para desactivar usuario
             $table->rememberToken();
             $table->timestamps();
         });

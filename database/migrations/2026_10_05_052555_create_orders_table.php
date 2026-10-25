@@ -10,12 +10,14 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('invoice_number')->unique(); // Requerido para la búsqueda por factura
             $table->foreignId('customer_number')->constrained('customers')->onDelete('cascade');
             $table->foreignId('created_by_user_id')->constrained('users')->onDelete('cascade');
             $table->date('order_date');
+            $table->decimal('total_amount', 10, 2)->default(0.00);
             $table->text('notes')->nullable();
-            $table->string('current_status');
-            $table->boolean('is_deleted')->default(false);
+            $table->string('current_status')->default('pending');
+            $table->softDeletes(); // Habilita deleted_at para GET /api/orders/archived
             $table->timestamps();
         });
     }

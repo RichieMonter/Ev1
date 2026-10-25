@@ -57,6 +57,7 @@ erDiagram
         string photo_url
         datetime uploaded_at
     }
+```
 
 ---
 
@@ -67,17 +68,17 @@ Backend update for **Sistema Halcón** implementing REST API endpoints for Users
 ### Available API Endpoints
 
 #### Users (`/api/users`)
-* **GET `/api/users`**: Retrieves a list of all users, including active and inactive users.
-* **GET `/api/users/{id}`**: Retrieves information for a specific user.
-* **POST `/api/users`**: Creates a new user.
-* **PUT `/api/users/{id}`**: Updates basic information for a user.
-* **PATCH `/api/users/{id}/deactivate`**: Changes a user's status to inactive.
+- **GET `/api/users`**: Retrieves a list of all users, including active and inactive users.
+- **GET `/api/users/{id}`**: Retrieves information for a specific user.
+- **POST `/api/users`**: Creates a new user.
+- **PUT `/api/users/{id}`**: Updates basic information for a user.
+- **PATCH `/api/users/{id}/deactivate`**: Changes a user's status to inactive.
 
 #### Orders (`/api/orders`)
-* **GET `/api/orders`**: Retrieves all orders, ordered from newest to oldest.
-* **GET `/api/orders/{id}`**: Retrieves a specific order by ID.
-* **GET `/api/orders/invoice/{invoice}`**: Searches for an order using its invoice number.
-* **POST `/api/orders`**: Creates a new order.
-* **PUT `/api/orders/{id}`**: Updates an existing order's information or status.
-* **DELETE `/api/orders/{id}`**: Logically deletes (archives) an order.
-* **GET `/api/orders/archived`**: Retrieves a list of all archived orders.
+- **GET `/api/orders`**: Retrieves all orders, ordered from newest to oldest.
+- **GET `/api/orders/{id}`**: Retrieves a specific order by ID.
+- **GET `/api/orders/invoice/{invoice}`**: Searches for an order using its invoice number.
+- **POST `/api/orders`**: Creates a new order.
+- **PUT `/api/orders/{id}`**: Updates an existing order's information or status.
+- **DELETE `/api/orders/{id}`**: Logically deletes (archives) an order.
+- **GET `/api/orders/archived`**: Retrieves a list of all archived orders.

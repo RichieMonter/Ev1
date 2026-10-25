@@ -21,16 +21,18 @@ class User extends Authenticatable
     protected $fillable = [
         'role_id',
         'username',
+        'email',
         'password_hash',
+        'is_active',
     ];
-    
+
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>
      */
     protected $hidden = [
-        'password',
+        'password_hash',
         'remember_token',
     ];
 
@@ -44,6 +46,15 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
+    }
+
+    /**
+     * Relación con las órdenes creadas por el usuario.
+     */
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'created_by_user_id');
     }
 }
