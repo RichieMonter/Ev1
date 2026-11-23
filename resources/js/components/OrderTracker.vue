@@ -2,7 +2,10 @@
   <div class="tracker-wrapper">
     <div class="tracker-card">
       <div class="brand-header">
-        <span class="brand-badge">LOGISTICS & SUPPLY</span>
+        <div class="header-top">
+          <span class="brand-badge">LOGISTICS & SUPPLY</span>
+          <a href="/login" class="employee-link">Employee Portal →</a>
+        </div>
         <h1>HALCON</h1>
       </div>
 
@@ -15,13 +18,24 @@
         <form @submit.prevent="checkOrderStatus">
           <div class="input-group">
             <label for="customerNumber">Customer Number</label>
-            <input id="customerNumber" v-model.trim="customerNumber" type="text" placeholder="e.g., 1" required />
+            <input
+              id="customerNumber"
+              v-model.trim="customerNumber"
+              type="text"
+              placeholder="e.g., 1"
+              required
+            />
           </div>
 
           <div class="input-group">
             <label for="invoiceNumber">Invoice Number</label>
-            <input id="invoiceNumber" v-model.trim="invoiceNumber" type="text" placeholder="e.g., INV-2026-001"
-              required />
+            <input
+              id="invoiceNumber"
+              v-model.trim="invoiceNumber"
+              type="text"
+              placeholder="e.g., INV-2026-001"
+              required
+            />
           </div>
 
           <button type="submit" class="btn-submit" :disabled="loading">
@@ -30,12 +44,10 @@
         </form>
       </div>
 
-      <!-- Mensaje de error si no encuentra la orden -->
       <div v-if="errorMessage" class="alert-error">
         {{ errorMessage }}
       </div>
 
-      <!-- Resultado dinámico de la orden desde MySQL -->
       <div v-if="orderResult" class="result-card">
         <div class="result-header">
           <h3>Order Details</h3>
@@ -142,6 +154,12 @@ const statusClass = computed(() => {
   border-bottom: 4px solid #f59e0b;
 }
 
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .brand-badge {
   font-size: 0.72rem;
   letter-spacing: 2px;
@@ -149,8 +167,25 @@ const statusClass = computed(() => {
   font-weight: 700;
 }
 
+.employee-link {
+  font-size: 0.78rem;
+  color: #cbd5e1;
+  text-decoration: none;
+  border: 1px solid #334155;
+  padding: 4px 10px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.employee-link:hover {
+  background: #f59e0b;
+  color: #111827;
+  border-color: #f59e0b;
+  font-weight: 600;
+}
+
 .brand-header h1 {
-  margin: 4px 0 0;
+  margin: 6px 0 0;
   font-size: 2rem;
   letter-spacing: 3px;
   font-weight: 800;

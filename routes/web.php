@@ -3,7 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\AdminController;
 
+// ==========================================
+// 1. MÓDULO PÚBLICO: RASTREO DE ÓRDENES (VUE)
+// ==========================================
 Route::get('/', function () {
     return view('tracking');
 });
@@ -37,4 +41,18 @@ Route::get('/api/track-order', function (Request $request) {
     }
 
     return response()->json($order);
+});
+
+// ==========================================
+// 2. MÓDULO ADMINISTRATIVO: LOGIN Y EMPLEADOS
+// ==========================================
+Route::get('/login', [AdminController::class, 'showLogin'])->name('login');
+Route::post('/login', [AdminController::class, 'login']);
+Route::post('/logout', [AdminController::class, 'logout'])->middleware('auth');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard/{section?}', [AdminController::class, 'dashboard']);
+    Route::post('/admin/users', [AdminController::class, 'storeUser']);
+    Route::put('/admin/users/{id}', [AdminController::class, 'updateUser']);
+    Route::patch('/admin/users/{id}/toggle', [AdminController::class, 'toggleStatus']);
 });
