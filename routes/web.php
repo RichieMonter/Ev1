@@ -44,7 +44,7 @@ Route::get('/api/track-order', function (Request $request) {
 });
 
 // ==========================================
-// 2. MÓDULO ADMINISTRATIVO: LOGIN Y EMPLEADOS
+// 2. MÓDULO ADMINISTRATIVO: LOGIN, USUARIOS Y ÓRDENES
 // ==========================================
 Route::get('/login', [AdminController::class, 'showLogin'])->name('login');
 Route::post('/login', [AdminController::class, 'login']);
@@ -52,7 +52,15 @@ Route::post('/logout', [AdminController::class, 'logout'])->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard/{section?}', [AdminController::class, 'dashboard']);
+
+    // Gestión de Usuarios (Administrator)
     Route::post('/admin/users', [AdminController::class, 'storeUser']);
     Route::put('/admin/users/{id}', [AdminController::class, 'updateUser']);
     Route::patch('/admin/users/{id}/toggle', [AdminController::class, 'toggleStatus']);
+
+    // Gestión de Órdenes (Create, Edit, Logical Delete, Restore)
+    Route::post('/admin/orders', [AdminController::class, 'storeOrder']);
+    Route::put('/admin/orders/{id}', [AdminController::class, 'updateOrder']);
+    Route::delete('/admin/orders/{id}', [AdminController::class, 'softDeleteOrder']);
+    Route::patch('/admin/orders/{id}/restore', [AdminController::class, 'restoreOrder']);
 });
