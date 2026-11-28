@@ -11,7 +11,12 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('company_name');
-            $table->string('fiscal_data');
+            // ANTES (no permitía NULL y rompía al dejar el campo vacío en el formulario):
+            // $table->string('fiscal_info');
+
+            // DESPUÉS (consistente con la validación 'nullable' del controlador):
+            $table->string('fiscal_info', 255)->nullable();
+            $table->string('fiscal_data', 255)->nullable();
             $table->string('delivery_address');
             $table->timestamps();
         });

@@ -13,22 +13,34 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'role_id' => 1,
-            'username' => 'admin_user',
-            'password_hash' => Hash::make('password123'),
-        ]);
+        // ANTES (contraseña literal repetida directamente en cada registro):
+        // 'password_hash' => Hash::make('password123'),
 
-        User::create([
-            'role_id' => 2,
-            'username' => 'logistics_operator',
-            'password_hash' => Hash::make('password123'),
-        ]);
+        // DESPUÉS (obtenida desde entorno/configuración o variable centralizada y hasheada):
+        $seedPassword = Hash::make(env('SEED_USER_PASSWORD', 'HalconPass2026!'));
 
-        User::create([
-            'role_id' => 2,
-            'username' => 'sales_rep',
-            'password_hash' => Hash::make('password123'),
-        ]);
+        User::updateOrCreate(
+            ['username' => 'admin_user'],
+            [
+                'role_id' => 1,
+                'password_hash' => $seedPassword,
+            ]
+        );
+
+        User::updateOrCreate(
+            ['username' => 'logistics_operator'],
+            [
+                'role_id' => 2,
+                'password_hash' => $seedPassword,
+            ]
+        );
+
+        User::updateOrCreate(
+            ['username' => 'sales_rep'],
+            [
+                'role_id' => 2,
+                'password_hash' => $seedPassword,
+            ]
+        );
     }
 }
